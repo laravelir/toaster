@@ -1,30 +1,35 @@
-- [![Starts](https://img.shields.io/github/stars/miladimos/package-skeleton?style=flat&logo=github)](https://github.com/miladimos/package-skeleton/forks)
-- [![Forks](https://img.shields.io/github/forks/miladimos/package-skeleton?style=flat&logo=github)](https://github.com/miladimos/package-skeleton/stargazers)
-  [![Total Downloads](https://img.shields.io/packagist/dt/miladimos/laravel-.svg?style=flat-square)](https://packagist.org/packages/miladimos/laravel-)
+- [![Starts](https://img.shields.io/github/stars/laravelir/toaster?style=flat&logo=github)](https://github.com/laravelir/toaster/forks)
+- [![Forks](https://img.shields.io/github/forks/laravelir/toaster?style=flat&logo=github)](https://github.com/laravelir/toaster/stargazers)
+  [![Total Downloads](https://img.shields.io/packagist/dt/laravelir/toaster.svg?style=flat-square)](https://packagist.org/laravelir/toaster)
 
 
 # laravel Package
 
-A package for fun
+multi style (tabler) toast notification
+
 
 ### Installation
 
 1. Run the command below to add this package:
 
 ```
-composer require vendor/package
+composer require laravelir/toaster
 ```
 
-2. Open your config/app.php and add the following to the providers array:
+2. Open your config/app.php and add the following to the arrays:
 
 ```php
-Vendor\Package\Providers\PackageServiceProvider::class,
+Laravelir\Toaster\Providers\ToasterServiceProvider::class, // in providers
 ```
 
-3. Run the command below to publish the package config file config/package.php:
+```php
+Laravelir\Toaster\Facades\ToasterFacade::class, // in facades
+```
+
+3. Run the command below to install package:
 
 ```
-php artisan vendor:publish
+php artisan toaster:install
 ```
 
 

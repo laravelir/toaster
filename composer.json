@@ -1,7 +1,7 @@
 {
-    "name": "miladimos/package-skeleton",
+    "name": "laravelir/toaster",
     "description": "test description",
-    "homepage": "https://github.com/miladimos/package-skeleton",
+    "homepage": "https://github.com/laravelir/toaster",
     "type": "library",
     "version": "0.1.0",
     "keywords": [
@@ -16,13 +16,13 @@
         {
             "name": "miladimos",
             "email": "miladimos@outlook.com",
-            "role": "maintaner",
+            "role": "maintainer",
             "homepage": "https://github.com/miladimos"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Miladimos\\Package\\": "src/"
+            "Laravelir\\Toaster\\": "src/"
         },
         "files": [
             "./src/helpers.php"
@@ -30,16 +30,16 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Miladimos\\Package\\Tests\\": "tests"
+            "Laravelir\\Toaster\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Miladimos\\Package\\Providers\\PackageServiceProvider"
+                "Laravelir\\Toaster\\Providers\\ToasterServiceProvider"
             ],
             "aliases": {
-                "Package": "Miladimos\\Package\\Facades\\PackageFacade"
+                "Toaster": "Laravelir\\Toaster\\Facades\\ToasterFacade"
             }
         }
     },

@@ -1,6 +1,6 @@
 <?php
 
-namespace Miladimos\Package\Providers;
+namespace Laravelir\Toaster\Providers;
 
 use App\Http\Kernel;
 use Illuminate\Routing\Router;
@@ -8,17 +8,15 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Miladimos\Package\Facades\PackageFacade;
-use Miladimos\Package\Console\Commands\InstallPackageCommand;
+use Laravelir\Toaster\Facades\ToasterFacade;
+use Laravelir\Toaster\Console\Commands\InstallToasterCommand;
 
-class PackageServiceProvider extends ServiceProvider
+class ToasterServiceProvider extends ServiceProvider
 {
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . "/../../config/config.php", 'package');
-
-        // $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+        $this->mergeConfigFrom(__DIR__ . "/../../config/toaster.php", 'toaster');
 
         // $this->registerViews();
 
@@ -44,17 +42,17 @@ class PackageServiceProvider extends ServiceProvider
 
     private function registerFacades()
     {
-        $this->app->bind('package', function ($app) {
-            return new PackageFacade();
+        $this->app->bind('toaster', function ($app) {
+            return new ToasterFacade();
         });
     }
 
     // private function registerViews()
     // {
-    //     $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'package');
+    //     $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'toaster');
 
     //     $this->publishes([
-    //         __DIR__ . '/../../resources/views' => resource_path('views/laravelir/package'),
+    //         __DIR__ . '/../../resources/views' => resource_path('views/laravelir/toaster'),
     //     ]);
     // }
 
@@ -64,7 +62,7 @@ class PackageServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
 
             $this->commands([
-                InstallPackageCommand::class,
+                InstallToasterCommand::class,
             ]);
         }
     }
@@ -72,8 +70,8 @@ class PackageServiceProvider extends ServiceProvider
     public function publishConfig()
     {
         $this->publishes([
-            __DIR__ . '/../../config/package.php' => config_path('package.php')
-        ], 'package-config');
+            __DIR__ . '/../../config/toaster.php' => config_path('toaster.php')
+        ], 'toaster-config');
     }
 
     // private function registerAssets()

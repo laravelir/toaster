@@ -1,53 +1,43 @@
 <?php
 
-namespace Miladimos\Package\Console\Commands;
+namespace Laravelir\Toaster\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
-class InstallPackageCommand extends Command
+class InstallToasterCommand extends Command
 {
-    protected $signature = 'package:install';
+    protected $signature = 'toaster:install';
 
-    protected $description = 'Install the package Package';
+    protected $description = 'Install the toaster Toaster';
 
     public function handle()
     {
-        $this->line("\t... Welcome To Package Installer ...");
+        $this->line("\t... Welcome To Toaster Installer ...");
+
+        //config
+        if (File::exists(config_path('toaster.php'))) {
+            $confirm = $this->confirm("toaster.php already exist. Do you want to overwrite?");
+            if ($confirm) {
+                $this->publishConfig();
+                $this->info("config overwrite finished");
+            } else {
+                $this->info("skipped config publish");
+            }
+        } else {
+            $this->publishConfig();
+            $this->info("config published");
+        }
 
 
-        // if (!empty(File::glob(database_path('migrations\*_create_packages_tables.php')))) {
-
-        //     $list  = File::glob(database_path('migrations\*_create_packages_tables.php'));
-        //     collect($list)->each(function ($item) {
-        //         File::delete($item);
-        //     });
-
-        //     $this->publishMigration();
-        // } else {
-        //     $this->publishMigration();
-        // }
-
-        $this->info("Package Successfully Installed.\n");
+        $this->info("Toaster Successfully Installed.\n");
         $this->info("\t\tGood Luck.");
     }
 
-    //       //config
-    //       if (File::exists(config_path('package.php'))) {
-    //         $confirm = $this->confirm("package.php already exist. Do you want to overwrite?");
-    //         if ($confirm) {
-    //             $this->publishConfig();
-    //             $this->info("config overwrite finished");
-    //         } else {
-    //             $this->info("skipped config publish");
-    //         }
-    //     } else {
-    //         $this->publishConfig();
-    //         $this->info("config published");
-    //     }
 
     //     //assets
-    //     if (File::exists(public_path('package'))) {
-    //         $confirm = $this->confirm("package directory already exist. Do you want to overwrite?");
+    //     if (File::exists(public_path('toaster'))) {
+    //         $confirm = $this->confirm("toaster directory already exist. Do you want to overwrite?");
     //         if ($confirm) {
     //             $this->publishAssets();
     //             $this->info("assets overwrite finished");
@@ -59,36 +49,19 @@ class InstallPackageCommand extends Command
     //         $this->info("assets published");
     //     }
 
-    //     //migration
-    //     if (File::exists(database_path("migrations/$migrationFile"))) {
-    //         $confirm = $this->confirm("migration file already exist. Do you want to overwrite?");
-    //         if ($confirm) {
-    //             $this->publishMigration();
-    //             $this->info("migration overwrite finished");
-    //         } else {
-    //             $this->info("skipped migration publish");
-    //         }
-    //     } else {
-    //         $this->publishMigration();
-    //         $this->info("migration published");
-    //     }
-
-    //     $this->call('migrate');
-    // }
-
-    // private function publishConfig()
-    // {
-    //     $this->call('vendor:publish', [
-    //         '--provider' => "Miladimos\package\Providers\packageServiceProvider",
-    //         '--tag'      => 'config',
-    //         '--force'    => true
-    //     ]);
-    // }
+    private function publishConfig()
+    {
+        $this->call('vendor:publish', [
+            '--provider' => "Laravelir\\Toaster\Providers\toasterServiceProvider",
+            '--tag'      => 'config',
+            '--force'    => true
+        ]);
+    }
 
     // private function publishMigration()
     // {
     //     $this->call('vendor:publish', [
-    //         '--provider' => "Miladimos\package\Providers\packageServiceProvider",
+    //         '--provider' => "Laravelir\\Toaster\Providers\toasterServiceProvider",
     //         '--tag'      => 'migrations',
     //         '--force'    => true
     //     ]);
@@ -97,7 +70,7 @@ class InstallPackageCommand extends Command
     // private function publishAssets()
     // {
     //     $this->call('vendor:publish', [
-    //         '--provider' => "Miladimos\package\Providers\packageServiceProvider",
+    //         '--provider' => "Laravelir\\Toaster\Providers\toasterServiceProvider",
     //         '--tag'      => 'assets',
     //         '--force'    => true
     //     ]);
