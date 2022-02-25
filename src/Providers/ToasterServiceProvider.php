@@ -4,12 +4,14 @@ namespace Laravelir\Toaster\Providers;
 
 use App\Http\Kernel;
 use Illuminate\Routing\Router;
+use Laravelir\Toaster\Toaster;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Laravelir\Toaster\Facades\ToasterFacade;
-use Laravelir\Toaster\Console\Commands\InstallToasterCommand;
+use Laravelir\Http\Middleware\ToasterMiddleware;
+use Laravelir\Toaster\Facades\Toaster as ToasterFacade;
+use Laravelir\Toaster\Console\Commands\InstallPackageCommand;
 
 class ToasterServiceProvider extends ServiceProvider
 {
@@ -43,7 +45,7 @@ class ToasterServiceProvider extends ServiceProvider
     private function registerFacades()
     {
         $this->app->bind('toaster', function ($app) {
-            return new ToasterFacade();
+            return new Toaster();
         });
     }
 
@@ -62,7 +64,7 @@ class ToasterServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
 
             $this->commands([
-                InstallToasterCommand::class,
+                InstallPackageCommand::class,
             ]);
         }
     }
@@ -81,14 +83,6 @@ class ToasterServiceProvider extends ServiceProvider
     //     ], 'dashboarder-assets');
     // }
 
-    // private function publishStubs()
-    // {
-    //     $this->publishes([
-    //         __DIR__ . '/../Console/Stubs' => resource_path('vendor/laravelir/dashboarder/stubs'),
-    //     ], 'dashboarder-stubs');
-    // }
-
-
 
     public function registerTranslations()
     {
@@ -99,55 +93,16 @@ class ToasterServiceProvider extends ServiceProvider
         ], 'dashboarder-langs');
     }
 
-    // private function registerRoutes()
-    // {
-    //     Route::group($this->routeConfiguration(), function () {
-    //         $this->loadRoutesFrom(__DIR__ . '/../../routes/dashboarder.php', 'dashboarder-routes');
-    //     });
-    // }
 
-    // private function routeConfiguration()
-    // {
-    //     return [
-    //         'prefix' => config('dashboarder.routes.prefix'),
-    //         'middleware' => config('dashboarder.routes.middleware'),
-    //         'as' => 'dashboarder.'
-    //     ];
-    // }
+    protected function registerBladeDirectives()
+    {
+        Blade::directive('toaster_config', function ($key) {
+            return "<?php echo config('dashboarder.' . $key); ?/>";
+        });
+    }
 
-    // protected function publishMigrations()
-    // {
-    //     $this->publishes([
-    //         __DIR__ . '/../database/migrations/create_dashboarder_tables.stub' => database_path() . "/migrations/{$timestamp}_create_dashboarder_tables.php",
-    //     ], 'dashboarder-migrations');
-    // }
-
-    // protected function registerBladeDirectives()
-    // {
-    //     Blade::directive('format', function ($expression) {
-            // return "<?php echo ($expression)->format('m/d/Y H:i') ?/>";
-    //     });
-
-    //     Blade::directive('config', function ($key) {
-    //         return "<?php echo config('dashboarder.' . $key); ?/>";
-    //     });
-    // }
-
-    // protected function registerMiddleware(Kernel $kernel, Router $router)
-    // {
-    //     // global
-    //     $kernel->pushMiddleware(CapitalizeTitle::class);
-
-    //     // route middleware
-    //     // $router = $this->app->make(Router::class);
-    //     $router->aliasMiddleware('capitalize', CapitalizeTitle::class);
-
-    //     // group
-    //     $router->pushMiddlewareToGroup('web', CapitalizeTitle::class);
-    // }
-
-    // public function registerLivewireComponents()
-    // {
-    //     // Livewire::component('test', Test::class);
-    // }
+    protected function registerMiddleware(Router $router)
+    {
+        $router->aliasMiddleware('toaster', ToasterMiddleware::class);
+    }
 }

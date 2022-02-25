@@ -5,7 +5,7 @@ namespace Laravelir\Toaster\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-class InstallToasterCommand extends Command
+class InstallPackageCommand extends Command
 {
     protected $signature = 'toaster:install';
 

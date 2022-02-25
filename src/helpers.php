@@ -1,8 +1,9 @@
 <?php
 
-if (!function_exists('test')) {
-    function test()
+if (!function_exists('toaster')) {
+    function toaster(string $title = '', string $message = '', string $level = 'info', array $options = [])
     {
-        return true;
+        $toaster = app('toaster');
+        return $toaster->toast();
     }
 }

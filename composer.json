@@ -39,7 +39,7 @@
                 "Laravelir\\Toaster\\Providers\\ToasterServiceProvider"
             ],
             "aliases": {
-                "Toaster": "Laravelir\\Toaster\\Facades\\ToasterFacade"
+                "Toaster": "Laravelir\\Toaster\\Facades\\Toaster"
             }
         }
     },
